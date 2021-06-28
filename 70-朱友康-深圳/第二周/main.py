@@ -15,8 +15,6 @@ def function(img):
 
 img=cv2.imread("lenna.png")
 zoom=function(img)
-print(zoom)
-print(zoom.shape)
 cv2.imshow("nearest interp",zoom)
 cv2.imshow("image",img)
 cv2.waitKey(0)
