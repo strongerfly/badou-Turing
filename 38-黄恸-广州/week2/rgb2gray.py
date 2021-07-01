@@ -11,6 +11,7 @@ cv2.imwrite('gary.jpg', img)
 cv2.waitKey()
 
 
+
 '''
 彩色图像二值化:
 使用阈值（threshold）函数，将RGB图像转为二值图。
