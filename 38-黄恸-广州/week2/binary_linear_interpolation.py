@@ -51,7 +51,6 @@ def bilinear_interpolation(img,multiple):
     return output_img
 
 
-
 if __name__ == '__main__':
     img = cv2.imread('E:/lenna.png').astype(np.float)
     out_image = bilinear_interpolation(img,2).astype(np.uint8)

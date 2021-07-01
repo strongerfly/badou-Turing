@@ -25,7 +25,6 @@ def nearest_interpolation(img,multiple):
                 src_y = round(dst_y * src_h / dst_h)
 
 
-
                 #防止越界
                 if src_x >= src_w:
                     src_x = src_w - 1
