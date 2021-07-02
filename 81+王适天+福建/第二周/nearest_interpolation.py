@@ -21,10 +21,13 @@ def nearest_interpolation(src_img, target_shape):
     empty_img = np.zeros((th, tw, channel), src_img.dtype)
     sh = th / h
     sw = tw / w
+    scale_x, scale_y = float(w) / tw, float(h) / th
     for i in range(th):
+        src_y = (i + 0.5) * scale_y - 0.5
         for j in range(tw):
-            x = int(i / sh)
-            y = int(j / sw)
+            src_x = (j + 0.5) * scale_x - 0.5
+            x = int(src_x / sh)
+            y = int(src_y / sw)
             empty_img[i, j] = src_img[x, y]
     return empty_img
 

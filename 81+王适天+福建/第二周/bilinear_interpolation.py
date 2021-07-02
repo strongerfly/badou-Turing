@@ -54,10 +54,12 @@ def my_bilinear_interpolation(src_img, target_shape):
 
     src_x1 = np.clip(src_x0 + 1, 0, w - 1)
     src_y1 = np.clip(src_y0 + 1, 0, h - 1)
-    r1 = (src_x1 - src_x)[..., np.newaxis] * img[src_y0, src_x0, :] + (src_x - src_x0)[..., np.newaxis] * img[src_y0,
-                                                                                                          src_x1, :]
-    r2 = (src_x1 - src_x)[..., np.newaxis] * img[src_y1, src_x0, :] + (src_x - src_x0)[..., np.newaxis] * img[src_y1,
-                                                                                                          src_x1, :]
+    r1 = (src_x1 - src_x)[..., np.newaxis] * src_img[src_y0, src_x0, :] + (src_x - src_x0)[..., np.newaxis] * src_img[
+                                                                                                              src_y0,
+                                                                                                              src_x1, :]
+    r2 = (src_x1 - src_x)[..., np.newaxis] * src_img[src_y1, src_x0, :] + (src_x - src_x0)[..., np.newaxis] * src_img[
+                                                                                                              src_y1,
+                                                                                                              src_x1, :]
 
     return ((src_y1 - src_y)[..., np.newaxis] * r1 + (src_y - src_y0)[..., np.newaxis] * r2).astype(np.uint8)
 
