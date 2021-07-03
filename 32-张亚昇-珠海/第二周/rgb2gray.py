@@ -17,6 +17,7 @@ for i in range(img.shape[0]):
         new_img[i,j] = img[i][j][0]*0.11 + img[i][j][1]*0.59 + img[i][j][2]*0.3
 
 
+
 cv2.imshow("gray_img", new_img)
 cv2.waitKey(0)
 print('new_img shape:', new_img.shape)
