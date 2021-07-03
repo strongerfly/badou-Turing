@@ -24,6 +24,7 @@ print(img_gray)
 print("img show gray:%s" %img_gray)
 cv2.imshow("show gray",img_gray)
 cv2.waitKey()  #报纸显示图像的界面，直到任意按键触发
+
 # plt.imshow(img_gray)
 # plt.show()
 

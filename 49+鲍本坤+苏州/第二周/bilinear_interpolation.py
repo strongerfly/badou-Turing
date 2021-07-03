@@ -18,6 +18,7 @@ def BiLinear_interpolation(img,dstH,dstW):
             v=scry-y
             retimg[i,j]=(1-u)*(1-v)*img[x,y]+u*(1-v)*img[x+1,y]+(1-u)*v*img[x,y+1]+u*v*img[x+1,y+1]
     return retimg
+
 im_path='lenna.png'
 image=np.array(Image.open(im_path))
 img =cv2.imread("lenna.png")
