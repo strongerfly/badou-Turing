@@ -16,7 +16,6 @@ def BiLinear_interpolation(img,dstH,dstW):
             y=math.floor(scry)  #取整
             u=scrx-x
             v=scry-y
-
             retimg[i,j]=(1-u)*(1-v)*img[x,y]+u*(1-v)*img[x+1,y]+(1-u)*v*img[x,y+1]+u*v*img[x+1,y+1]
     return retimg
 im_path='lenna.png'

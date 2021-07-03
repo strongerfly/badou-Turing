@@ -8,7 +8,6 @@ import cv2
 import turtle
 
 # 灰度化
-
 img = cv2.imread("lenna.png")
 
 gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)

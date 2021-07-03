@@ -5,7 +5,6 @@ import math
 import cv2
 
 # 最近邻插值算法
-
 def NN_interpolation(img, dstH, dstW):
     scrH, scrW, _ = img.shape
     retimg = np.zeros((dstH, dstW, 3), dtype=np.uint8)
