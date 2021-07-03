@@ -10,8 +10,8 @@ def BiLinear_interpolation(img,dstH,dstW):
     retimg=np.zeros((dstH,dstW,3),dtype=np.uint8)
     for i in range(dstH):
         for j in range(dstW):
-            scrx=(i+1)*(scrH/dstH)-1
-            scry=(j+1)*(scrW/dstW)-1
+            scrx=(i+0.5)*(scrH/dstH)-0.5
+            scry=(j+0.5)*(scrW/dstW)-0.5
             x=math.floor(scrx)  #取整
             y=math.floor(scry)  #取整
             u=scrx-x
