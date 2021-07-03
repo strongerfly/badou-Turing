@@ -16,7 +16,6 @@ def NN_interpolation(img, dstH, dstW):
             retimg[i, j] = img[scrx, scry]
     return retimg
 
-
 im_path = 'lenna.png'
 image =np.array(Image.open(im_path))   #image.open默认读取彩色图片顺序是RGB,而从v.imread读取为BGR
 

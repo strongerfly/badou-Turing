@@ -15,7 +15,6 @@ gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
 # cv2.imshow("image show gray", gray)
 plt.imshow(gray)
 plt.show()
-
 h,w=img.shape[:2]
 img_gray = np.zeros([h,w],img.dtype)
 for i in range(h):
