@@ -44,7 +44,7 @@ def my_nearest_interpolation(src_img, target_shape):
 
 
 if __name__ == '__main__':
-    img = cv2.imread("lenna.png", 0)
+    img = cv2.imread("../resources/lenna.png", 0)
     start = time.time()
     resize_img = nearest_interpolation(img, (800, 800))
     end1 = time.time()

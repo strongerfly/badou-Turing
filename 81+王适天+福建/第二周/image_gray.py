@@ -28,9 +28,9 @@ def my_rgb2gray(img_path):
 
 if __name__ == "__main__":
     start = time.time()
-    gray = rgb2gray("lenna.png")
+    gray = rgb2gray("../resources/lenna.png")
     end1 = time.time()
-    rgb_gray = my_rgb2gray("lenna.png")
+    rgb_gray = my_rgb2gray("../resources/lenna.png")
     end2 = time.time()
     print("循环耗时%.3f s,numpy向量加速耗时%.3f s" % (end1 - start, end2 - end1))
     print(gray - rgb_gray)
