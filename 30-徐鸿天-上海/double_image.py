@@ -18,6 +18,9 @@ def BiLinear_interpolation(img,dstH,dstW):
              retimg[i,j]=(1-u)*(1-v)*img[x,y]+u*(1-v)*img[x+1,y]+(1-u)*v*img[x,y+1]+u*v*img[x+1,y+1]
      return retimg
 
+
+
+
 im_path= '../../bd_ai/30-徐鸿天-上海/1.jpg'
 image=np.array(Image.open(im_path))
 image2=BiLinear_interpolation(image,image.shape[0]*2,image.shape[1]*2)

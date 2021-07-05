@@ -12,6 +12,8 @@ if __name__ == "__main__":
     img_gray = cv2.cvtColor(img,cv2.COLOR_RGB2GRAY)
     cv2.imshow("img_gray",img_gray)
 
+
+
     print("img_gray shape:{}".format(np.shape(img_gray)))
     cv2.waitKey(0)
 
