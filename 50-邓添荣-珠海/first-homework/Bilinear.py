@@ -29,6 +29,6 @@ def bilinear_interpolation(img, out_size):
 
 
 img = cv2.imread("lenna.png")
-img_bilinear = bilinear_interpolation(img, (400, 600))
+img_bilinear = bilinear_interpolation(img, (600, 600))
 cv2.imshow("1", img_bilinear)
 cv2.waitKey()
