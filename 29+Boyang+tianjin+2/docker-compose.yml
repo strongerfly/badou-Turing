@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  rgb2gray:
+    build: ./rgb2gray
+    environment:
+      - DISPLAY=unix:0
+    working_dir: /app/
+    volumes:
+      - ./rgb2gray:/app/:cached
+      - /tmp/.X11-unix:/tmp/.X11-unix #Static - needed to display atom on your host
+
+  nearest:
+    build: ./nearest
+    environment:
+      - DISPLAY=unix:0
+    working_dir: /app/
+    volumes:
+      - ./nearest:/app/:cached
+      - /tmp/.X11-unix:/tmp/.X11-unix #Static - needed to display atom on your host
+
+  bilinear:
+    build: ./bilinear
+    environment:
+      - DISPLAY=unix:0
+    working_dir: /app/
+    volumes:
+      - ./bilinear:/app/:cached
+      - /tmp/.X11-unix:/tmp/.X11-unix #Static - needed to display atom on your host
