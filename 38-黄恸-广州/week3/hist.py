@@ -25,7 +25,7 @@ cv2.imshow('gray_grayHistEqualization',np.hstack([gray,dst_gray_histEqualization
 cv2.imwrite('gray_grayHistEqualization.jpg',np.hstack([gray,dst_gray_histEqualization]))
 cv2.waitKey()
 
-#彩色图像直方图和直方图均衡化
+#彩色图像直方图和均衡化
 chans = cv2.split(img)
 colors = ('b','g','r')
 plt.figure(2)
