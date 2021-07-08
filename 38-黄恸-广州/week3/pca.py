@@ -59,7 +59,7 @@ def pca(data, k):
     newImage = Image.fromarray(np.uint8(rec_data*100))
     # 将处理好的降维图片存入文件夹
     newImage.convert('RGB').save( 'E:/badou-Turing/38-黄恸-广州/week3/1/'+ 'k=' + str(k) + '.jpg')
-    # newImage.show()
+    
 
 if __name__ == '__main__':
     data = loadImage('E:/lenna.png')
