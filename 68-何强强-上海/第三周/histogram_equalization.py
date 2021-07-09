@@ -14,42 +14,49 @@ ranges:像素值的范围，一般为[0,255]表示0~255
 import cv2
 import numpy as np
 from matplotlib import pyplot as plt
-from collections import Counter
 
 
 def func(img):
     h, w = img.shape
     input_hist, _ = np.histogram(img, 256)
-    output_data = img.copy()
+    output_data = np.zeros((h, w), dtype=np.int8)
+    # output_data = np.zeros((h, w))
     pis, q_list = [], []
     for i in range(0, 256):
         pi = input_hist[i] / (h * w)
         pis.append(pi)
-        q = sum(pis) * 256 - 1
+        q = round(sum(pis) * 256 - 1)
         q = max(0, q)
         q = min(255, q)
         q_list.append(q)
-    # todo 怎样替换？
+        output_data[img == i] = q
     return output_data
 
+
+def cv2_test(img):
+    res = cv2.calcHist(images=[img], channels=[0], mask=None, histSize=[256], ranges=[0, 256])
+    # 原始图像直方图
+    plt.bar(range(0, 256), res.ravel())
+    plt.title("origin hist")
+    plt.show()
+    cv2.imshow("origin", img)
+    # cv2 均衡化
+    eq1 = cv2.equalizeHist(img)
+    plt.hist(eq1.ravel(), 256)
+    plt.title("equalization by cv2")
+    plt.show()
+    cv2.imshow("equalization by cv2", eq1)
 
 
 if __name__ == '__main__':
 
     src = cv2.imread("lenna.png")
     gray = cv2.cvtColor(src, cv2.COLOR_BGR2GRAY)
-    # res = cv2.calcHist(images=[gray], channels=[0], mask=None, histSize=[256], ranges=[0, 256])
-    # # 原始图像直方图
-    # plt.bar(range(0, 256), res.ravel())
-    # plt.title("origin hist")
-    # plt.show()
-    # cv2 均衡化
-    # eq1 = cv2.equalizeHist(gray)
-    # plt.hist(eq1.ravel(), 256)
-    # plt.title("equalization by cv2")
-    # plt.show()
+    # cv2_test(gray)
 
-    des = func(gray)
-    plt.hist(des.ravel(), 256)
-    plt.title("equalization by cv2")
+    eq2 = func(gray)
+    plt.hist(eq2.ravel(), 256)
+    plt.title("equalization by diy np.in8")
     plt.show()
+    # cv2.imshow("equalization by diy", eq2)
+    # cv2.waitKey()
