@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="ProjectModuleManager">
-    <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/badou-Turing.iml" filepath="$PROJECT_DIR$/.idea/badou-Turing.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../python课后作业/.idea/python课后作业.iml" filepath="$PROJECT_DIR$/../python课后作业/.idea/python课后作业.iml" />
-    </modules>
-  </component>
-</project>
