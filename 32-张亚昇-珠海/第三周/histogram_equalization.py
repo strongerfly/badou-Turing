@@ -29,6 +29,7 @@ ax2.set_xticks([]), ax2.set_yticks([])
 
 fig.tight_layout()
 plt.show()
+
 #print(hist.shape)
 def hist(img):
     plt.hist(img.ravel(), 256, [0, 256])
