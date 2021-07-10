@@ -8,17 +8,21 @@ import numpy as np
 
 
 def histogram_equalization(image):
-    h, w = image.shape
-    hist_input = cv2.calcHist([image], [0], None, [256], [0, 256])
-    empty = np.zeros(image.shape, image.dtype)
-    init = 0
-    for i in range(256):
-        init += hist_input[i][0]
-        y_index, x_index = np.where(image == i)
-        v = np.around(init * 256 / (h * w) - 1)
-        if v > 0:
-            empty[y_index, x_index] = v
-    return empty.astype(np.uint8)
+    h, w = image.shape[0], image.shape[1]
+    split = cv2.split(image)
+    t = []
+    for i in split:
+        hist_input = cv2.calcHist([i], [0], None, [256], [0, 256])
+        empty = np.zeros(i.shape, i.dtype)
+        init = 0
+        for pi in range(256):
+            init += hist_input[pi][0]
+            y_index, x_index = np.where(i == pi)
+            v = np.around(init * 256 / (h * w) - 1)
+            if v > 0:
+                empty[y_index, x_index] = v
+        t.append(empty)
+    return cv2.merge(t).astype(np.uint8)
 
 
 if __name__ == '__main__':

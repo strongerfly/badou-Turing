@@ -4,7 +4,8 @@
 
 #    @Description PCA主成分分析——降维算法
 from typing import Optional, Any
-
+from sklearn import datasets
+import cv2
 import numpy as np
 
 
@@ -27,6 +28,7 @@ class PCA:
 
 
 if __name__ == '__main__':
-    b = np.array([[1, 2], [3, 4]])
-    range_ = [b[:, i] for i in range(2)]
-    print(range_)
+    iris = datasets.load_iris()
+    pca = PCA(2)
+    transform = pca.fit_transform(iris.data)
+    print(transform)
