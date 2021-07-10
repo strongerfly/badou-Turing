@@ -53,6 +53,7 @@ def convolu3(img, kernel, kernel_size, step):
 
     return img_out
 
+
 iii = convolu(img, kernel1, 3, 1)
 cv2.imshow("img", iii)
 cv2.waitKey(0)
