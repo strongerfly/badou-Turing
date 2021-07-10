@@ -38,5 +38,4 @@ vec = covfun(dd,2)
 pca = np.dot(iris_data, vec)  #Xnew*W
 print(pca)
 
-
 # print(aaa.mean())
