@@ -1,7 +1,7 @@
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt
-img = cv2.imread('D:/GoogleDownload/lenna.png')
+img = cv2.imread('./lenna.png')
 img_gary = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
 kernel1 = np.array([[1, 0, 0], [-1, 0, 0], [0, -1, 1]])
@@ -11,7 +11,7 @@ kernel = np.array([kernel1, kernel2, kernel3])
 
 # img_out = np.zeros(img.shape, dtype='uint8')
 #灰度图进行卷积
-def convolu(img, kernel, kernel_size, step):
+def conv2(img, kernel, kernel_size, step):
     width = img.shape[0]
     height = img.shape[1]
     new_w = int((width - kernel_size) / step + 1)
@@ -30,7 +30,7 @@ def convolu(img, kernel, kernel_size, step):
 
     return img_out
 # 彩色图卷积
-def convolu3(img, kernel, kernel_size, step):
+def conv3(img, kernel, kernel_size, step):
     width = img.shape[0]
     height = img.shape[1]
     new_w = int((width - kernel_size) / step + 1)
@@ -54,6 +54,6 @@ def convolu3(img, kernel, kernel_size, step):
     return img_out
 
 
-iii = convolu(img, kernel1, 3, 1)
+iii = conv2(img, kernel1, 3, 1)
 cv2.imshow("img", iii)
 cv2.waitKey(0)
