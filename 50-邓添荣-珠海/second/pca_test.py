@@ -33,3 +33,4 @@ jiangwei_juzhen_2 = pca.fit_transform(X)
 print("API接口降维的结果")
 print(jiangwei_juzhen_2, "\r\n")
 print(pca.explained_variance_ratio_)  #输出贡献率
+
