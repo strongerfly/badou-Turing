@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 img = cv2.imread('./lenna.png')
 img_gary = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
+
 kernel1 = np.array([[1, 0, 0], [-1, 0, 0], [0, -1, 1]])
 kernel2 = np.array([[-1, -1, 0], [-1, -1, 1], [1, 0, 0]])
 kernel3 = np.array([[1, 1, 0], [0, -1, 1], [1, 1, 1]])
