@@ -20,7 +20,7 @@ def fun_biliner_interp(img,shape):
                 src_x1=min(src_x0+1,sur_w-1)
                 src_y0=int(np.floor(src_y))
                 src_y1=min(src_y0+1,sur_h-1)
-
+                '''线性插值'''
                 temp_0=(src_x1-src_x)*img[src_y0,src_x0,i]+(src_x-src_x0)*img[src_y0,src_x1,i]
                 temp_1=(src_x1-src_x)*img[src_y1,src_x0,i]+(src_x-src_x0)*img[src_y1,src_x1,i]
                 dest_img[dst_y,dst_x,i]=int((src_y1-src_y)*temp_0+(src_y-src_y0)*temp_1)
