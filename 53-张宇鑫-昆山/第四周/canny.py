@@ -56,21 +56,144 @@ def canny_with_myself(src: numpy.ndarray, lower_boundary: int, high_boundary: in
     :param alpha:乘数因子
     :param beta:偏移量
     '''
-    absX = cv2.convertScaleAbs(src_sobel_X)
-    absY = cv2.convertScaleAbs(src_sobel_Y)
+    abx_x = cv2.convertScaleAbs(src_sobel_X)
+    abx_y = cv2.convertScaleAbs(src_sobel_Y)
+    sobel_result = cv2.addWeighted(abx_x, 0.5, abx_y, 0.5, 0)
+    sobel_float_result = sobel_result.astype(numpy.float32)
+    # 将CV_16S型的输出图像转变成float32型的图像
+    sobel_float_X = src_sobel_X.astype(numpy.float32)
+    sobel_float_Y = src_sobel_Y.astype(numpy.float32)
+    # 将sobel_float_X等于0的像素转换为一个极小值,防止算梯度的时候除数为0的情况
+    sobel_float_X[sobel_float_X == 0] = 0.0000001
+    # 计算斜率
+    # 4.对梯度幅值进行非极大值抑制：通俗意义上是指寻找像素点局部最大值，将非极大值点所对应的灰度值置为0，这样可以剔除掉一大部分非边缘的点。
     '''
-    使用addWeighted(src1, alpha, src2, beta, gamma, dst=None, dtype=None) 实现以不同的权重将两幅图片叠加，对于不同的权重，叠加后的图像会有不同的透明度
-    :param src1:输入图像1
-    :param alpha:第一个数组的权重
-    :param src2:输入图像2
-    :param beta:第二个数组的权重值，值为1-alpha
-    :param gamma:一个加到权重总和上的标量值，可以理解为加权和后的图像的偏移量
-    :param dtype:可选，输出阵列的深度，有默认值-1。当两个输入数组具有相同深度时，这个参数设置为-1（默认值），即等同于src1.depth()。
-    dst = alpha*src1+beta*scr2+gamma
+    设中心点坐标为(i,j) 则附近8个点个表示为
+    i-1,j-1  i-1,j  i-1,j+1
+     i,j-1    i,j    i,j+1
+    i+1,j-1  i+1,j  i+1,j+1 
+    插值法公式 y = (x1-x)/(x1,x0)*y0 + (x-x0)/(x1,x0)*y1
+            由于 x1=x必然等于1 所以公式转化为 (x1-x)*y0 + (x-x0)*y1
     '''
-    src_sobel = cv2.addWeighted(src1=absX, alpha=0.5, src2=absY, beta=0.5, gamma=0)
+    gradient = sobel_float_Y / sobel_float_X
+    for i in range(1, sobel_float_result.shape[0] - 1):
+        for j in range(1, sobel_float_result.shape[1] - 1):
+            is_max_num = True
+            if 1 >= gradient[i, j] > 0:
+                # 斜率大于0小于1 ===> 0< 角度 <= 45°  插值算法中 x1-x = 1-gradient[i, j] x-x0=gradient[i, j]
+                # 插值法 4个点 为 (i-1,j+1),(i,j+1)  和 (i,j-1),(i+1,j-1)
+                p1 = 1 - gradient[i, j]
+                p2 = gradient[i, j]
+                y01 = sobel_float_result[i - 1, j + 1]
+                y02 = sobel_float_result[i, j + 1]
+                y11 = sobel_float_result[i, j - 1]
+                y12 = sobel_float_result[i + 1, j - 1]
+                sobel_pix = sobel_float_result[i, j]
+                _, _, is_max_num = gradient_result(p1, p2, y01, y02, y11, y12, sobel_pix)
 
-    return src_sobel
+            elif gradient[i, j] > 1:
+                # 斜率大于1 ===> 45< 角度 <= 90°  插值算法中 x1-x = 1-1/gradient[i, j] x-x0=1/gradient[i, j]
+                # 插值法 4个点 为 (i-1,j),(i-1,j+1)  和 (i+1,j-1),(i+1,j)
+                p1 = 1 - 1 / gradient[i, j]
+                p2 = 1 / gradient[i, j]
+                y01 = sobel_float_result[i - 1, j]
+                y02 = sobel_float_result[i - 1, j + 1]
+                y11 = sobel_float_result[i + 1, j - 1]
+                y12 = sobel_float_result[i + 1, j]
+                sobel_pix = sobel_float_result[i, j]
+                _, _, is_max_num = gradient_result(p1, p2, y01, y02, y11, y12, sobel_pix)
+            elif 0 >= gradient[i, j] > -1:
+                # 斜率小于0并大于-1 ===> -45< 角度 <= 0  插值算法中 x1-x = 1-gradient[i, j] x-x0=gradient[i, j]
+                # 插值法 4个点 为 (i-1,j-1),(i,j-1)  和 (i,j+1),(i+1,j+1)
+                p1 = 1 - gradient[i, j]
+                p2 = gradient[i, j]
+                y01 = sobel_float_result[i - 1, j - 1]
+                y02 = sobel_float_result[i, j - 1]
+                y11 = sobel_float_result[i, j + 1]
+                y12 = sobel_float_result[i + 1, j + 1]
+                sobel_pix = sobel_float_result[i, j]
+                _, _, is_max_num = gradient_result(p1, p2, y01, y02, y11, y12, sobel_pix)
+            elif gradient[i, j] <= -1:
+                # 斜率小于等于-1 ===>  角度 <= -45  插值算法中 x1-x = 1-1/gradient[i, j] x-x0=1/gradient[i, j]
+                # 插值法 4个点 为 (i-1,j-1),(i-1,j)  和 (i+1,j),(i+1,j+1)
+                p1 = 1 - 1 / gradient[i, j]
+                p2 = 1 / gradient[i, j]
+                y01 = sobel_float_result[i - 1, j - 1]
+                y02 = sobel_float_result[i - 1, j]
+                y11 = sobel_float_result[i + 1, j]
+                y12 = sobel_float_result[i + 1, j + 1]
+                sobel_pix = sobel_float_result[i, j]
+                _, _, is_max_num = gradient_result(p1, p2, y01, y02, y11, y12, sobel_pix)
+
+            if not is_max_num:
+                # 如果不是极大值抑制为0
+                sobel_float_result[i, j] = 0.
+    # 将非极大值抑制后的图像转换为uint8
+    unit_result = sobel_float_result.astype(numpy.uint8)
+    # 5.用双阈值算法检测和连接边缘
+    '''
+    1、先获取强边缘像素下标
+    2、在强边缘邻近八点看是否有中边缘像素 若有 把他认为强边缘像素
+    3、把中边缘像素装换到强边缘后 添加到步骤1
+    '''
+    # 获取强边缘下标
+    npWhere = numpy.where(unit_result >= high_boundary)
+    # 将强边缘像素置为255
+    unit_result[unit_result >= high_boundary] = 255
+    # 将弱边缘像素置为0
+    unit_result[unit_result <= lower_boundary] = 0
+    # 获取原图中强边缘个数
+    high_boundary_num = len(npWhere[0])
+    num = 0
+    m = []
+    for i in range(len(npWhere[0])):
+        m.append([npWhere[0][i],npWhere[1][i]])
+    while high_boundary_num != 0:
+        # 强像素坐标
+        high_boundary_X = m[num][0]
+        high_boundary_y = m[num][1]
+        for i in [-1, 0, 1]:
+            for j in [-1, 0, 1]:
+                if i == 0 and j == 0:
+                    # 屏蔽中心位置
+                    continue
+                # 确保周围点能在图像中取到
+                if 0 <= high_boundary_X + i < unit_result.shape[0]:
+                    if 0 <= high_boundary_y + j < unit_result.shape[1]:
+                        # 判断周边像素是否存在中边缘值
+                        if lower_boundary<unit_result[high_boundary_X + i,high_boundary_y + j]<high_boundary:
+                            # 赋值为强边缘
+                            unit_result[high_boundary_X + i,high_boundary_y + j] = 255
+                            m.append([high_boundary_X + i, high_boundary_y + j])
+                            high_boundary_num += 1
+        num +=1
+        high_boundary_num -=1
+    unit_result[unit_result!=255] = 0
+
+    dst = unit_result
+    return dst
+
+
+def gradient_result(p1, p2, y01, y02, y11, y12, sobel_pix) -> object:
+    """
+    梯度插值算法
+    :param p1: 相当于上面函数中的x1-x
+    :param p2: 相当于上面函数中的x-x0
+    :param y01: 两个邻近点的像素值1
+    :param y02: 两个邻近点的像素值2
+    :param y11: 两个邻近点的像素值3
+    :param y12: 两个邻近点的像素值4
+    :param sobel_pix: 原图像素
+    :return: g1,g2 插值算法后输出
+            is_max_num: False 表示 不是极大值
+                        True 表示 是极大值
+    """
+    g1 = p1 * y01 + p2 * y02
+    g2 = p1 * y11 + p2 * y12
+    is_max_num = True
+    if sobel_pix < g1 or sobel_pix < g2:
+        is_max_num = False
+    return g1, g2, is_max_num
 
 
 def canny_with_cv(src: numpy.ndarray, lower_boundary: int, high_boundary: int) -> numpy.ndarray:
