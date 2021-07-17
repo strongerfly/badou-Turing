@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 from matplotlib import pyplot as plt
 
-# 获取灰度图像
+# 灰度图像
 img = cv2.imread("lenna.png", 1)
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 cv2.imshow("image_gray", gray)

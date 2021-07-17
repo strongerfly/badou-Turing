@@ -1,6 +1,5 @@
 # pca作业
 import numpy as np
-
 # 1
 class PCA1():
     def __init__(self, n_components):
