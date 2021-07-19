@@ -38,7 +38,7 @@ if __name__ == '__main__':
     src = cv2.imread("tt.jpg")
     gray = cv2.cvtColor(src, cv2.COLOR_BGR2GRAY)
     cv2.imshow("gray img", gray)
-    k = np.array([1, 0, -1, 2, 0, -2, 1, 0, -1]).reshape(3, 3)
+    k = np.array([1, 0, -1, 2, 0, -2, 1, 0, -1]).reshape(3, 3).T
     sobel_img = convolution(gray, k, 1)
     cv2.imshow("sobel img", sobel_img)
     cv2.waitKey()
