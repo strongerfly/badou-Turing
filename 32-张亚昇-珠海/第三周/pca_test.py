@@ -39,4 +39,5 @@ pca = np.dot(iris_data, vec)  #Xnew*W
 print(pca)
 
 
+
 # print(aaa.mean())
