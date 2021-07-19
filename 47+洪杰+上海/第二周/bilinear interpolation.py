@@ -36,12 +36,15 @@ def bilinear_interpolation(img,out_dim):
                 temp0 = (src_x1 - src_x) * img[src_y0,src_x0,i] + (src_x - src_x0) * img[src_y0,src_x1,i]
                 temp1 = (src_x1 - src_x) * img[src_y1,src_x0,i] + (src_x - src_x0) * img[src_y1,src_x1,i]
                 dst_img[dst_y,dst_x,i] = int((src_y1 - src_y) * temp0 + (src_y - src_y0) * temp1)
+                print("temp0",temp0)
+                print("temp1", temp1)
+                print("dst_img", dst_img[dst_y,dst_x,i])
  
     return dst_img
  
  
 if __name__ == '__main__':
     img = cv2.imread('lenna.png')
-    dst = bilinear_interpolation(img,(700,700))
+    dst = bilinear_interpolation(img,(900,900))
     cv2.imshow('bilinear interp',dst)
     cv2.waitKey()
