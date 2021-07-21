@@ -22,7 +22,9 @@ def convolute(gray, kernel,stride=1,padding=0,mode='valid'):
             w += 2*padding
 
         if mode == 'same':
-            assert stride<=padding
+            kernel_radius = kernel.shape[0]//2
+            # 增加的边缘要比kernel半径大，才有可能得到same的结果
+            assert stride * kernel_radius<=padding
             candicate = np.zeros((h+2*stride,w+2*stride))
             candicate[stride:h + stride, stride:w + stride] = gray
             h += 2*stride
@@ -40,9 +42,9 @@ def convolute(gray, kernel,stride=1,padding=0,mode='valid'):
     return target
 
 def main():
-    gray = np.arange(25).reshape((5,5))
-    kernel = np.arange(9).reshape((3,3))
-    target = convolute(gray,kernel,stride=2,padding=2,mode='same')
+    gray = np.arange(49).reshape((7,7))
+    kernel = np.arange(25).reshape((5,5))
+    target = convolute(gray,kernel,stride=1,padding=4,mode='same')
     print("the output is: \n{}".format(target))
 
 if __name__ == '__main__':
