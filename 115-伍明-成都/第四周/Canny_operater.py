@@ -85,11 +85,12 @@ def canny_oper(img,threshold1,threshold2):
         for j in range(1,dy-1):
             if img_yizhi[i,j]>=high_boundary:
                 img_yizhi[i,j]=255
+                zhan.append([i,j])
             elif img_yizhi[i,j]<=lower_boundary:
                 img_yizhi[i,j]=0
     while not len(zhan)==0:
         temp_1,temp_2=zhan.pop()
-        a=img_yizhi[temp_1-1:temp_1+2,temp_2-1,temp_2+2]
+        a=img_yizhi[temp_1-1:temp_1+2,temp_2-1:temp_2+2]
         if (a[0, 0] < high_boundary) and (a[0, 0] > lower_boundary):
             img_yizhi[temp_1 - 1, temp_2 - 1] = 255  # 这个像素点标记为边缘
             zhan.append([temp_1 - 1, temp_2 - 1])  # 进栈
