@@ -3,7 +3,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 
-
 #原始数据赋值粘贴
 X = [[0.0888, 0.5885],
      [0.1399, 0.8291],

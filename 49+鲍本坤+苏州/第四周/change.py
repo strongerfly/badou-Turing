@@ -1,12 +1,12 @@
 import numpy as np
 import cv2 as cv
 
-
 '''
 src：输入图像的三个点坐标
 dst：输出图像的三个点坐标
 三个点分别对应左上角、右上角、左下角
 '''
+
 img = cv.imread('ddk.jpg', 1)
 img = cv.resize(img,(800,500))
 img2 = img.copy()
