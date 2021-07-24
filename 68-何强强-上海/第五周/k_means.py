@@ -109,5 +109,5 @@ def test(n=3):
 
 
 if __name__ == '__main__':
-    # k_means_by_sklearn()
+    k_means_by_sklearn()
     test()
