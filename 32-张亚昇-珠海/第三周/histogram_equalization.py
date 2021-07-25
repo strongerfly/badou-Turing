@@ -37,5 +37,6 @@ def hist(img):
 
 hist(img_gray)
 hist(img_eq)
+
 #for i in range(img_gray.shape[0]):
     #for j in range(img_gray.shape[1]):
