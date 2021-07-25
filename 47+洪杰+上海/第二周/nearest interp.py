@@ -3,6 +3,8 @@ import cv2
 import numpy as np
 def function(img):
     height,width,channels =img.shape
+    print("height",height)
+    print("width", width)
     emptyImage=np.zeros((800,800,channels),np.uint8)
     sh=800/height
     sw=800/width
@@ -11,6 +13,7 @@ def function(img):
             x=int(i/sh)
             y=int(j/sw)
             emptyImage[i,j]=img[x,y]
+            print("emptyimage",emptyImage[i,j])
     return emptyImage
 
 img=cv2.imread("lenna.png")
