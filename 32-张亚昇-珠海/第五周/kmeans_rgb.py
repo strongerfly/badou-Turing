@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 #读取图像
-img = cv2.imread("D:/GoogleDownload/lenna.png")
+img = cv2.imread("./lenna.png")
 print(img.shape)
 
 data = img.reshape((-1, 3))
@@ -22,6 +22,7 @@ compactness, labels32, centers32 = cv2.kmeans(data, 32, None, criteria, 10, flag
 centers2 = np.uint8(centers2)
 res = centers2[labels2.flatten()]
 dst2 = res.reshape((img.shape))
+
 
 centers4 = np.uint8(centers4)
 res = centers4[labels4.flatten()]
