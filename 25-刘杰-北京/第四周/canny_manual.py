@@ -46,7 +46,8 @@ def canny(gray, ksize, sigma,lower,upper):
     sobel_y = np.array(((-1,-2,-1),(0,0,0),(1,2,1)))
     gradient_x = convolution_manual.convolute(blur, sobel_x, padding=1, mode="same")
     gradient_y = convolution_manual.convolute(blur, sobel_y, padding=1, mode="same")
-    gradient = np.sqrt(gradient_x**2 + gradient_y**2)
+    # gradient = np.sqrt(gradient_x**2 + gradient_y**2)
+    gradient = np.hypot(gradient_x,gradient_y)
     # gradient = np.sqrt(np.square(gradient_x) + np.square(gradient_y**2))
     gradient_x[gradient_x == 0] = 0.00000001
     gradient_theta_tan = gradient_y/gradient_x
