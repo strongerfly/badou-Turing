@@ -36,7 +36,7 @@ def canny(gray, ksize, sigma,lower,upper):
     """
 
     # 高斯平滑
-    gaussian_1d = cv2.getGaussianKernel(5, sigma)
+    gaussian_1d = cv2.getGaussianKernel(ksize, sigma)
     gaussian_2d = np.dot(gaussian_1d, gaussian_1d.transpose())
     blur = convolution_manual.convolute(gray, gaussian_2d, padding=2, mode="same")
     # blur = cv2.GaussianBlur(gray, (ksize, ksize), sigma)
