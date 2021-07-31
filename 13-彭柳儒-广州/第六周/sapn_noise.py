@@ -43,5 +43,5 @@ def sapn_noise(image,prob):
     return output
 
 img = cv2.imread("lena.png")
-sp_img = sapn_noise(img,prob=0.1)
+sp_img = sapn_noise(img,prob=0.2)
 cv_imshow(sp_img,"name")

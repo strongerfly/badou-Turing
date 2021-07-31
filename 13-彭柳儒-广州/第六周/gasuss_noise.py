@@ -45,6 +45,6 @@ def gasuss_noise(image, mean=0, var=0.001):
 # Read image
 
 img = cv2.imread("lena.png")
-gasuss_img = gasuss_noise(img, mean=0, var=0.01)
+gasuss_img = gasuss_noise(img, mean=0, var=0.02)
 
 cv_imshow(gasuss_img,"name")
