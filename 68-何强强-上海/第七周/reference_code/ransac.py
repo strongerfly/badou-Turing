@@ -1,6 +1,6 @@
-import numpy as np
 import scipy as sp
 import scipy.linalg as sl
+import numpy as np
 
 
 def ransac(data, model, n, k, t, d, debug=False, return_all=False):
@@ -61,7 +61,7 @@ def ransac(data, model, n, k, t, d, debug=False, return_all=False):
         if debug:
             print('test_err.min()', test_err.min())
             print('test_err.max()', test_err.max())
-            print('numpy.mean(test_err)', numpy.mean(test_err))
+            print('numpy.mean(test_err)', np.mean(test_err))
             print('iteration %d:len(alsoinliers) = %d' % (iterations, len(also_inliers)))
         # if len(also_inliers > d):
         print('d = ', d)
@@ -109,7 +109,7 @@ class LinearLeastSquareModel:
     def get_error(self, data, model):
         A = np.vstack([data[:, i] for i in self.input_columns]).T  # 第一列Xi-->行Xi
         B = np.vstack([data[:, i] for i in self.output_columns]).T  # 第二列Yi-->行Yi
-        B_fit = sp.dot(A, model)  # 计算的y值,B_fit = model.k*A + model.b
+        B_fit = np.dot(A, model)  # 计算的y值,B_fit = model.k*A + model.b
         err_per_point = np.sum((B - B_fit) ** 2, axis=1)  # sum squared error per row
         return err_per_point
 
@@ -121,7 +121,7 @@ def test():
     n_outputs = 1  # 输出变量个数
     A_exact = 20 * np.random.random((n_samples, n_inputs))  # 随机生成0-20之间的500个数据:行向量
     perfect_fit = 60 * np.random.normal(size=(n_inputs, n_outputs))  # 随机线性度，即随机生成一个斜率
-    B_exact = sp.dot(A_exact, perfect_fit)  # y = x * k
+    B_exact = np.dot(A_exact, perfect_fit)  # y = x * k
 
     # 加入高斯噪声,最小二乘能很好的处理
     A_noisy = A_exact + np.random.normal(size=A_exact.shape)  # 500 * 1行向量,代表Xi
