@@ -1,10 +1,7 @@
-# coding=utf-8    不加这句话会出现错误
-import numpy as np
-import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+import numpy as np
 
-
-#原始数据赋值粘贴
 X = [[0.0888, 0.5885],
      [0.1399, 0.8291],
      [0.0747, 0.4974],
@@ -27,22 +24,15 @@ X = [[0.0888, 0.5885],
      [0.2567, 0.4326],
      [0.1956, 0.4280]
     ]
-print(X)
+
+# cluster群，簇
 clf = KMeans(n_clusters=3)
 y_pred = clf.fit_predict(X)
-
-print(clf)
-print("y_pred=",y_pred)
-
-
-x=[n[0] for n in X]
-print (x)
-
-y=[n[1] for n in X]
-print(y)
-
-plt.scatter(x,y,c=y_pred,marker='x')
-plt.title("Kmeans.data")
-
-
-
+x = [n[0] for n in X]
+y = [n[1] for n in X]
+plt.scatter(x, y, c=y_pred, marker='x')
+plt.title('Kmeans-Basketball Data')
+plt.xlabel('assists_per_minute')
+plt.ylabel('points_per_minute')
+plt.legend(["A", "B", "C"])              # legend图例，传奇
+plt.show()
