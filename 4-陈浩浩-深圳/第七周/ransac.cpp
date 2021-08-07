@@ -42,27 +42,33 @@ bool ransacFitLine(vector<cv::Point2d>& points, cv::Vec4f& bestParam, vector<cv:
         cv::fitLine(randomPoints, lineParam, cv::DIST_L2, 0, 0.01, 0.01);
         double linek = lineParam[1]/lineParam[0];
         
-        // 计算测试点是否也在拟合直线上，并统计误差, 在直线上的点当作inliner
-        double sumErr = 0;
+        // 计算测试点是否也在拟合直线上, 在直线上的点当作inliner
         for(int i=0; i<n; i++){
             if(randomIndex.find(i)==randomIndex.end()){
                 double err = linek*(points[i].x - lineParam[2]) + lineParam[3] - points[i].y;
                 err = err*err; // 差值的平方作为误差
                 if (err < thresh){
                     tempInliners.push_back(points[i]);
-                    sumErr += err;
                 }
             }
         }
-        sumErr = sumErr/(n-initInlinerNums);  // 误差平方和的平均值
         
         // 当前inliner内点个数超过阈值时
         if(tempInliners.size()>EndInlinerNums){
+            //采用所有的内点，拟合直线并计算平均误差
+            tempInliners.insert(tempInliners.end(), randomPoints.begin(), randomPoints.end());
+            cv::fitLine(randomPoints, lineParam, cv::DIST_L2, 0, 0.01, 0.01);
+            double linek = lineParam[1]/lineParam[0];
+            double sumErr = 0;
+            for(int i=0; i<tempInliners.size(); i++){
+                double err = linek*(points[i].x - lineParam[2]) + lineParam[3] - points[i].y;
+                sumErr += err*err; // 差值的平方作为误差
+            }
+            sumErr = sumErr/tempInliners.size();  // 误差平方和的平均值
             if(minErr>sumErr){  // 记录最小的平均误差，
                 minErr = sumErr;
                 bestParam = lineParam;
                 inlinerPoints.assign(tempInliners.begin(), tempInliners.end()); 
-                inlinerPoints.insert(inlinerPoints.end(), randomPoints.begin(), randomPoints.end());  // 合并所有的内点
                 flag = true;
             }
         }
