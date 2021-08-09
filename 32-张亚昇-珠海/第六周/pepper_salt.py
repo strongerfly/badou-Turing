@@ -15,7 +15,7 @@ def PepperSalt(src, percetage):
             noise_img[randx, randy] = 255
     return noise_img
 
-img = cv2.imread("D:/GoogleDownload/lenna.png")
+img = cv2.imread("./lenna.png")
 img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 img1 = img.copy()
 img2 = PepperSalt(img, 0.6)

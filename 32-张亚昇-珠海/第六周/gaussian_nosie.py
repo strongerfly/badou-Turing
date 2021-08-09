@@ -15,7 +15,7 @@ def GaussianNoise(src, means, sigma, percetage):
             noise_img[randx, randy] = 255
     return noise_img
 
-img = cv2.imread("D:/GoogleDownload/lenna.png")
+img = cv2.imread("./lenna.png")
 img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 img1 = img.copy()
 img2 = GaussianNoise(img, 2, 4, 0.8)
