@@ -12,7 +12,7 @@ import time
 
 def rgb2gray():
     # 灰度化
-    img = cv2.imread("lenna.png")
+    img = cv2.imread("../images/lenna.png")
     h,w = img.shape[:2]
     img_gray =cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
 

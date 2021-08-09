@@ -58,7 +58,7 @@ def my_bilinear_interpolation(img,out_dim):
 if __name__ == '__main__':
     import time
 
-    img = cv2.imread('lenna.png')
+    img = cv2.imread('../images/lenna.png')
     t1 = time.time()
     dst = bilinear_interpolation(img,(700,700))
     t2 = time.time()
