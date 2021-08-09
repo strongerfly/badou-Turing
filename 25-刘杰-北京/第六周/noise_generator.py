@@ -13,6 +13,7 @@ import cv2
 import matplotlib.pyplot as plt
 import argparse
 
+
 def add_gaussian_noise(gray, mean, sigma):
     """ 高斯噪声的手动实现
 
@@ -29,6 +30,7 @@ def add_gaussian_noise(gray, mean, sigma):
     gaussian_noise = np.random.normal(mean, sigma, gray.shape)
     return gray + gaussian_noise
 
+
 def add_pepper_salt(gray, snr):
     """ 椒盐噪声的手动实现
 
@@ -39,23 +41,25 @@ def add_pepper_salt(gray, snr):
     :return: 增加椒盐噪声的图片
     :rtype: np.ndarray
     """
-    coordX, coordY = np.indices(gray.shape)
-    #生成随机噪声点的X，Y坐标
-    coordXSample = np.random.choice(coordX.shape[0], int(coordX.shape[0]*snr), replace=False)
-    coordYSample = np.random.choice(coordY.shape[0], int(coordY.shape[0]*snr), replace=False)
-    #生成随机椒(0)盐(255)点
-    papperSaltSample = np.random.choice([0, 255], (int(coordX.shape[0]*snr),int(coordY.shape[0]*snr)))
+    height, width = gray.shape
+    # 生成随机噪声点的X，Y坐标
+    # 注：矩阵中的height对应的是Y坐标，width对应的是X坐标
+    coordXSample = np.random.choice(width, int(width * snr), replace=False)
+    coordYSample = np.random.choice(height, int(height * snr), replace=False)
+    # 生成随机椒(0)盐(255)点
+    papperSaltSample = np.random.choice([0, 255], (int(height * snr), int(width * snr)))
 
     target = gray.copy()
-    target[coordXSample,coordYSample[:,np.newaxis]] = papperSaltSample
+    target[coordYSample[:, np.newaxis], coordXSample] = papperSaltSample
     return target
+
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('-p','--path',required=True,help="image path for input")
+    ap.add_argument('-p', '--path', required=True, help="image path for input")
     args = vars(ap.parse_args())
     image = cv2.imread(args["path"])
-    gray = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     gray_noise = add_gaussian_noise(gray, 2, 50)
     papper_salt_noise = add_pepper_salt(gray, 0.5)
 
@@ -66,6 +70,7 @@ def main():
     plt.subplot(223)
     plt.imshow(papper_salt_noise, cmap='gray')
     plt.show()
+
 
 if __name__ == '__main__':
     main()
