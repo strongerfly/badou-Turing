@@ -56,8 +56,8 @@ def cmpHash(hash1,hash2):
     return n
 
 def hashDemo():
-    img1=cv2.imread('lenna.png')
-    img2=cv2.imread('lenna_noise.png')
+    img1=cv2.imread('../images/lenna.png')
+    img2=cv2.imread('../images/lenna_noise.png')
     ahash1= aHash(img1)
     ahash2= aHash(img2)
     print(ahash1)
@@ -97,8 +97,8 @@ def myHashDemo():
         hash_str = ''.join(hash_str)
         return hash_str
 
-    img1 = cv2.imread('lenna.png')
-    img2 = cv2.imread('lenna_noise.png')
+    img1 = cv2.imread('../images/lenna.png')
+    img2 = cv2.imread('../images/lenna_noise.png')
     ahash1 = aHash(img1)
     ahash2 = aHash(img2)
     print(ahash1)
