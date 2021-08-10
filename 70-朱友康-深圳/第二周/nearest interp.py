@@ -19,7 +19,7 @@ def my_resize_nearst(img,fx,fy):
 
 if __name__=="__main__":
     import time
-    img=cv2.imread("lenna.png")
+    img=cv2.imread("../images/lenna.png")
     h,w,c=img.shape
     fx = 800 / w
     fy = 800 / h
