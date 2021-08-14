@@ -48,7 +48,7 @@ def kmeans(k, data):
     :rtype: tuple
     """
 
-    dataIndex = np.indices((data.shape[0],))[0]
+    dataIndex = np.arange(data.shape[0])
     kCentersIndex = np.random.choice(dataIndex, k, replace=False)
     kCenters = data[kCentersIndex]
     print("init k centers: {}".format(kCenters))
