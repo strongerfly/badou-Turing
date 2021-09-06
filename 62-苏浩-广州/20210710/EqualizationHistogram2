@@ -1,0 +1,31 @@
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+
+
+# 第一步：读入图片
+img = cv2.imread('lenna.png', 0)
+
+# 第二步: 使用cv2.equalizeHist实现像素点的均衡化
+ret = cv2.equalizeHist(img)
+
+
+# 使用自适应直方图均衡化
+# 第一步：实例化自适应直方图均衡化函数
+clahe = cv2.createCLAHE(clipLimit=2.0)
+
+# 第二步：进行自适应直方图均衡化
+clahe = clahe.apply(img)
+
+# 第三步：进行图像的展示
+cv2.imshow('imgs', np.hstack((img, ret, clahe)))
+# cv2.waitKey(0)
+
+# 第四步：使用plt.hist绘制像素直方图
+plt.subplot(131)
+plt.hist(img.ravel(), 256)
+plt.subplot(132)
+plt.hist(ret.ravel(), 256)
+plt.subplot(133)
+plt.hist(clahe.ravel(), 256)
+plt.show()

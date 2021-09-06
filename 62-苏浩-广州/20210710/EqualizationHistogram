@@ -1,0 +1,49 @@
+import cv2
+import numpy as np
+from matplotlib import pyplot as plt
+
+
+# 灰度图像直方图
+
+# 读取图像
+# BGR，0-255,(路径，flag)flag默认值为1--8深度（2**8），3通道
+img = cv2.imread("lenna.png", 1)
+# print(img)
+# 转化获取灰度图像（图像，转化形式）,转化为1维的形式
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+# print("--------------------")
+# print(gray)
+# 展示原始的灰度图（窗口名字，图像的灰度数据）
+# cv2.imshow("image_gray", gray)
+
+# 灰度图像的直方图一
+# 通过matplotlib库原来就有的内容，计算图像的直方图，单通道的形式
+# 图像相关参数，编号，宽高，像素等
+# plt.figure(1)
+# 将二维图像拉平为一维数组
+# plt.hist(gray.ravel(), 256)
+# 展示原来的直方图
+# plt.show()
+plt.subplot(121)
+plt.hist(gray.ravel(), 256)
+
+# 图像均衡化方面的计算
+'''
+equalizeHist—直方图均衡化
+函数原型： equalizeHist(src, dst=None)
+src：图像矩阵(单通道图像)
+dst：默认即可
+'''
+# 灰度图像直方图均衡化
+dst = cv2.equalizeHist(gray)
+
+# 直方图
+hist = cv2.calcHist([dst], [0], None, [256], [0, 256])
+
+cv2.imshow("Histogram Equalization", np.hstack([gray, dst]))
+# cv2.waitKey(0)
+
+plt.subplot(122)
+plt.hist(dst.ravel(), 256)
+plt.show()
+
